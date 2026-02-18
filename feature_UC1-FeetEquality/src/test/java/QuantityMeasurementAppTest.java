@@ -3,7 +3,6 @@ package src.test.java;
 
 import org.junit.jupiter.api.Test;
 import src.main.java.org.example.QuantityMeasurementApp;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class QuantityMeasurementAppTest {
