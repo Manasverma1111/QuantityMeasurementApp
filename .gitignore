@@ -1,14 +1,17 @@
+# IntelliJ
+.idea/
+*.iml
+
 # Default ignored files
 /shelf/
 /workspace.xml
+
 # Editor-based HTTP Client requests
 /httpRequests/
+
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
-/QuantityMeasurementApp.iml/
-/misc.xml/
-/modules.xml/
-/vcs.xml/
-/README.md/
-/.idea/
+
+# Ignore README
+README.md
