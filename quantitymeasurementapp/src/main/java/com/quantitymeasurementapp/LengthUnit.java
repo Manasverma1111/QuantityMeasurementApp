@@ -16,4 +16,12 @@ public enum LengthUnit {
     public double toFeet(double value) {
         return value * conversionFactorToFeet;
     }
+
+    public double fromFeet(double feetValue) {
+        return feetValue / conversionFactorToFeet;
+    }
+
+    public double getFactor() {
+        return conversionFactorToFeet;
+    }
 }

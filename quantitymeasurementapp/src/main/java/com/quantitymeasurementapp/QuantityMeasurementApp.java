@@ -1,77 +1,40 @@
 package src.main.java.com.quantitymeasurementapp;
 
-import java.util.Scanner;
 
 public class QuantityMeasurementApp {
 
-    // Step 3: Inner Immutable Feet Class
-    public static class Feet {
+    public static double convert(double value,
+                                 LengthUnit source,
+                                 LengthUnit target) {
 
-        // Encapsulation + Immutability
-        private final double value;
+        if (!Double.isFinite(value))
+            throw new IllegalArgumentException("Invalid value");
 
-        // Step 4: Constructor
-        public Feet(double value) {
-            this.value = value;
-        }
+        if (source == null || target == null)
+            throw new IllegalArgumentException("Unit cannot be null");
 
-        public double getValue() {
-            return value;
-        }
-
-        // Step 5: Overriding equals()
-        @Override
-        public boolean equals(Object obj) {
-
-            // Reflexive check
-            if (this == obj) {
-                return true;
-            }
-
-            // Null + Type check
-            if (obj == null || getClass() != obj.getClass()) {
-                return false;
-            }
-
-            Feet other = (Feet) obj;
-
-            // Floating point safe comparison
-            return Double.compare(this.value, other.value) == 0;
-        }
-
-        // Recommended whenever equals() is overridden
-        @Override
-        public int hashCode() {
-            return Double.hashCode(value);
-        }
+        double base = source.toFeet(value);
+        return target.fromFeet(base);
     }
 
-    // Step 6: Main Method
-    public static void main(String[] args) {
+    public static void demonstrateLengthConversion(double value,
+                                                   LengthUnit from,
+                                                   LengthUnit to) {
 
-        Scanner scanner = new Scanner(System.in);
+        double result = convert(value, from, to);
+        System.out.println("convert(" + value + ", " + from + ", " + to + ") = " + result);
+    }
 
-        System.out.println("Enter first value in feet:");
-        String input1 = scanner.nextLine();
+    public static void demonstrateLengthConversion(QuantityLength length,
+                                                   LengthUnit to) {
 
-        System.out.println("Enter second value in feet:");
-        String input2 = scanner.nextLine();
+        QuantityLength converted = length.convertTo(to);
+        System.out.println(length + " -> " + converted);
+    }
 
-        try {
-            double value1 = Double.parseDouble(input1);
-            double value2 = Double.parseDouble(input2);
+    public static void demonstrateLengthEquality(QuantityLength l1,
+                                                 QuantityLength l2) {
 
-            Feet feet1 = new Feet(value1);
-            Feet feet2 = new Feet(value2);
-
-            boolean result = feet1.equals(feet2);
-
-            System.out.println("Equal (" + result + ")");
-
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid input: Please enter numeric values only.");
-        }
-
-        scanner.close();
+        System.out.println(l1 + " == " + l2 + " ? " + l1.equals(l2));
     }
 }
