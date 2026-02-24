@@ -4,7 +4,7 @@
 
 This repository documents the **daily progress of tasks completed during the BridgeLabz Training Program**
 
-The progress is recorded week-wise and day-wise, focusing on **Java fundamentals, problem-solving, and programming concepts**.  
+The progress is recorded week-wise and day-wise, focusing on **Quantity Measurement App**.  
 Each section highlights the learning objectives and tasks completed on specific dates.
 
 ---
@@ -15,7 +15,6 @@ Each section highlights the learning objectives and tasks completed on specific 
 - **Primary Language:** Java
 - **IDE Used:** Eclipse / IntelliJ IDEA
 - **Version Control:** Git & GitHub
-- 
 ---
 
 ## Branch Information
