@@ -39,16 +39,16 @@ public final class QuantityLength {
         if (source == null || target == null)
             throw new IllegalArgumentException("Units cannot be null");
 
-        double baseFeet = source.toFeet(value);
+        double feet = source.toFeet(value);
 
-        return target.fromFeet(baseFeet);
+        return target.fromFeet(feet);
     }
 
     public QuantityLength convertTo(LengthUnit targetUnit) {
 
-        double converted = convert(this.value, this.unit, targetUnit);
+        double result = convert(this.value, this.unit, targetUnit);
 
-        return new QuantityLength(converted, targetUnit);
+        return new QuantityLength(result, targetUnit);
     }
 
 
@@ -63,7 +63,11 @@ public final class QuantityLength {
         return new QuantityLength(resultValue, this.unit);
     }
 
-    public static QuantityLength add(QuantityLength a, QuantityLength b, LengthUnit targetUnit) {
+
+    public static QuantityLength add(
+            QuantityLength a,
+            QuantityLength b,
+            LengthUnit targetUnit) {
 
         if (a == null || b == null)
             throw new IllegalArgumentException("Operands cannot be null");
@@ -73,9 +77,9 @@ public final class QuantityLength {
 
         double sumFeet = a.toBaseUnit() + b.toBaseUnit();
 
-        double result = targetUnit.fromFeet(sumFeet);
+        double resultValue = targetUnit.fromFeet(sumFeet);
 
-        return new QuantityLength(result, targetUnit);
+        return new QuantityLength(resultValue, targetUnit);
     }
 
 
