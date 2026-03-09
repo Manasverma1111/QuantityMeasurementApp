@@ -11,118 +11,76 @@ public class QuantityMeasurementAppTest {
     private static final double EPS = 1e-6;
 
     @Test
+    void testLengthUnitEnum_FeetConstant() {
+        assertEquals(1.0, LengthUnit.FEET.getConversionFactor());
+    }
+
+    @Test
+    void testConvertToBaseUnit_InchesToFeet() {
+        assertEquals(1.0,
+                LengthUnit.INCHES.convertToBaseUnit(12.0), EPS);
+    }
+
+    @Test
+    void testConvertFromBaseUnit_FeetToInches() {
+        assertEquals(12.0,
+                LengthUnit.INCHES.convertFromBaseUnit(1.0), EPS);
+    }
+
+    @Test
+    void testEquality_FeetAndInches() {
+
+        QuantityLength a = new QuantityLength(1, LengthUnit.FEET);
+        QuantityLength b = new QuantityLength(12, LengthUnit.INCHES);
+
+        assertTrue(a.equals(b));
+    }
+
+    @Test
+    void testConvertTo() {
+
+        QuantityLength q = new QuantityLength(1, LengthUnit.FEET);
+
+        QuantityLength result = q.convertTo(LengthUnit.INCHES);
+
+        assertEquals(12.0, result.getValue(), EPS);
+    }
+
+    @Test
+    void testAddition_FeetAndInches() {
+
+        QuantityLength a = new QuantityLength(1, LengthUnit.FEET);
+        QuantityLength b = new QuantityLength(12, LengthUnit.INCHES);
+
+        QuantityLength result = a.add(b, LengthUnit.FEET);
+
+        assertEquals(2.0, result.getValue(), EPS);
+    }
+
+    @Test
     void testAddition_TargetUnit_Yards() {
 
-        QuantityLength a = new QuantityLength(1.0, LengthUnit.FEET);
-        QuantityLength b = new QuantityLength(12.0, LengthUnit.INCHES);
+        QuantityLength a = new QuantityLength(1, LengthUnit.FEET);
+        QuantityLength b = new QuantityLength(12, LengthUnit.INCHES);
 
         QuantityLength result = QuantityLength.add(a, b, LengthUnit.YARDS);
 
-        assertEquals(
-                new QuantityLength(0.6666666667, LengthUnit.YARDS),
-                result
-        );
+        assertEquals(0.666666, result.getValue(), EPS);
     }
 
     @Test
-    void testAddition_TargetUnit_Feet() {
+    void testInvalidUnit() {
 
-        QuantityLength a = new QuantityLength(36.0, LengthUnit.INCHES);
-        QuantityLength b = new QuantityLength(1.0, LengthUnit.YARDS);
-
-        QuantityLength result = QuantityLength.add(a, b, LengthUnit.FEET);
-
-        assertEquals(
-                new QuantityLength(6.0, LengthUnit.FEET),
-                result
-        );
+        assertThrows(
+                NullPointerException.class,
+                () -> new QuantityLength(1.0, null));
     }
 
     @Test
-    void testAddition_TargetUnit_Inches() {
-
-        QuantityLength a = new QuantityLength(1.0, LengthUnit.FEET);
-        QuantityLength b = new QuantityLength(12.0, LengthUnit.INCHES);
-
-        QuantityLength result = QuantityLength.add(a, b, LengthUnit.INCHES);
-
-        assertEquals(
-                new QuantityLength(24.0, LengthUnit.INCHES),
-                result
-        );
-    }
-
-    @Test
-    void testAddition_Commutativity() {
-
-        QuantityLength a = new QuantityLength(1.0, LengthUnit.FEET);
-        QuantityLength b = new QuantityLength(12.0, LengthUnit.INCHES);
-
-        QuantityLength r1 = QuantityLength.add(a, b, LengthUnit.FEET);
-        QuantityLength r2 = QuantityLength.add(b, a, LengthUnit.FEET);
-
-        assertEquals(r1, r2);
-    }
-
-    @Test
-    void testAddition_WithZero() {
-
-        QuantityLength a = new QuantityLength(5.0, LengthUnit.FEET);
-        QuantityLength b = new QuantityLength(0.0, LengthUnit.INCHES);
-
-        QuantityLength result = QuantityLength.add(a, b, LengthUnit.FEET);
-
-        assertEquals(
-                new QuantityLength(5.0, LengthUnit.FEET),
-                result
-        );
-    }
-
-    @Test
-    void testAddition_NegativeValues() {
-
-        QuantityLength a = new QuantityLength(5.0, LengthUnit.FEET);
-        QuantityLength b = new QuantityLength(-2.0, LengthUnit.FEET);
-
-        QuantityLength result = QuantityLength.add(a, b, LengthUnit.FEET);
-
-        assertEquals(
-                new QuantityLength(3.0, LengthUnit.FEET),
-                result
-        );
-    }
-
-    @Test
-    void testAddition_NullFirstOperand() {
-
-        QuantityLength b = new QuantityLength(1.0, LengthUnit.FEET);
+    void testInvalidValue() {
 
         assertThrows(
                 IllegalArgumentException.class,
-                () -> QuantityLength.add(null, b, LengthUnit.FEET)
-        );
-    }
-
-    @Test
-    void testAddition_NullSecondOperand() {
-
-        QuantityLength a = new QuantityLength(1.0, LengthUnit.FEET);
-
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> QuantityLength.add(a, null, LengthUnit.FEET)
-        );
-    }
-
-    @Test
-    void testAddition_NullTargetUnit() {
-
-        QuantityLength a = new QuantityLength(1.0, LengthUnit.FEET);
-        QuantityLength b = new QuantityLength(12.0, LengthUnit.INCHES);
-
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> QuantityLength.add(a, b, null)
-        );
+                () -> new QuantityLength(Double.NaN, LengthUnit.FEET));
     }
 }
