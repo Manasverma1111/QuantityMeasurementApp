@@ -4,22 +4,36 @@ public class QuantityMeasurementApp {
 
     public static void main(String[] args) {
 
-        QuantityLength q1 = new QuantityLength(1.0, LengthUnit.YARDS);
-        QuantityLength q2 = new QuantityLength(3.0, LengthUnit.FEET);
+        demonstrateLengthConversion(1.0, LengthUnit.FEET, LengthUnit.INCHES);
+        demonstrateLengthConversion(3.0, LengthUnit.YARDS, LengthUnit.FEET);
+        demonstrateLengthConversion(36.0, LengthUnit.INCHES, LengthUnit.YARDS);
+        demonstrateLengthConversion(1.0, LengthUnit.CENTIMETERS, LengthUnit.INCHES);
 
-        System.out.println("Input: Quantity(1.0, YARDS) and Quantity(3.0, FEET)");
-        System.out.println("Output: Equal (" + q1.equals(q2) + ")");
+        QuantityLength yard = new QuantityLength(1.0, LengthUnit.YARDS);
+        demonstrateLengthConversion(yard, LengthUnit.INCHES);
+    }
 
-        QuantityLength q3 = new QuantityLength(1.0, LengthUnit.YARDS);
-        QuantityLength q4 = new QuantityLength(36.0, LengthUnit.INCH);
+    /**
+     * Overloaded Method #1
+     */
+    public static void demonstrateLengthConversion(double value, LengthUnit from, LengthUnit to) {
 
-        System.out.println("Input: Quantity(1.0, YARDS) and Quantity(36.0, INCH)");
-        System.out.println("Output: Equal (" + q3.equals(q4) + ")");
+        double result = QuantityLength.convert(value, from, to);
 
-        QuantityLength q5 = new QuantityLength(1.0, LengthUnit.CENTIMETERS);
-        QuantityLength q6 = new QuantityLength(0.393701, LengthUnit.INCH);
+        System.out.println(
+                "Input: convert(" + value + ", " + from + ", " + to + ") → Output: " + result
+        );
+    }
 
-        System.out.println("Input: Quantity(1.0, CENTIMETERS) and Quantity(0.393701, INCH)");
-        System.out.println("Output: Equal (" + q5.equals(q6) + ")");
+    /**
+     * Overloaded Method #2
+     */
+    public static void demonstrateLengthConversion(QuantityLength quantity, LengthUnit target) {
+
+        QuantityLength converted = quantity.convertTo(target);
+
+        System.out.println(
+                "Converted: " + quantity + " → " + converted
+        );
     }
 }

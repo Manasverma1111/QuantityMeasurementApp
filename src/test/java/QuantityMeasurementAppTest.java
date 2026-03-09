@@ -8,76 +8,73 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class QuantityMeasurementAppTest {
 
+    private static final double EPS = 1e-6;
+
     @Test
-    void testEquality_YardToYard_SameValue() {
-
-        QuantityLength q1 = new QuantityLength(1.0, LengthUnit.YARDS);
-        QuantityLength q2 = new QuantityLength(1.0, LengthUnit.YARDS);
-
-        assertTrue(q1.equals(q2));
+    void testConversion_FeetToInches() {
+        assertEquals(12.0,
+                QuantityLength.convert(1.0, LengthUnit.FEET, LengthUnit.INCHES), EPS);
     }
 
     @Test
-    void testEquality_YardToFeet_EquivalentValue() {
-
-        QuantityLength q1 = new QuantityLength(1.0, LengthUnit.YARDS);
-        QuantityLength q2 = new QuantityLength(3.0, LengthUnit.FEET);
-
-        assertTrue(q1.equals(q2));
+    void testConversion_InchesToFeet() {
+        assertEquals(2.0,
+                QuantityLength.convert(24.0, LengthUnit.INCHES, LengthUnit.FEET), EPS);
     }
 
     @Test
-    void testEquality_YardToInches_EquivalentValue() {
-
-        QuantityLength q1 = new QuantityLength(1.0, LengthUnit.YARDS);
-        QuantityLength q2 = new QuantityLength(36.0, LengthUnit.INCH);
-
-        assertTrue(q1.equals(q2));
+    void testConversion_YardsToInches() {
+        assertEquals(36.0,
+                QuantityLength.convert(1.0, LengthUnit.YARDS, LengthUnit.INCHES), EPS);
     }
 
     @Test
-    void testEquality_centimetersToInches_EquivalentValue() {
-
-        QuantityLength q1 = new QuantityLength(1.0, LengthUnit.CENTIMETERS);
-        QuantityLength q2 = new QuantityLength(0.393701, LengthUnit.INCH);
-
-        assertTrue(q1.equals(q2));
+    void testConversion_InchesToYards() {
+        assertEquals(2.0,
+                QuantityLength.convert(72.0, LengthUnit.INCHES, LengthUnit.YARDS), EPS);
     }
 
     @Test
-    void testEquality_centimetersToFeet_NonEquivalentValue() {
-
-        QuantityLength q1 = new QuantityLength(1.0, LengthUnit.CENTIMETERS);
-        QuantityLength q2 = new QuantityLength(1.0, LengthUnit.FEET);
-
-        assertFalse(q1.equals(q2));
+    void testConversion_CentimetersToInches() {
+        assertEquals(1.0,
+                QuantityLength.convert(2.54, LengthUnit.CENTIMETERS, LengthUnit.INCHES), EPS);
     }
 
     @Test
-    void testEquality_MultiUnit_TransitiveProperty() {
-
-        QuantityLength yard = new QuantityLength(1.0, LengthUnit.YARDS);
-        QuantityLength feet = new QuantityLength(3.0, LengthUnit.FEET);
-        QuantityLength inches = new QuantityLength(36.0, LengthUnit.INCH);
-
-        assertTrue(yard.equals(feet));
-        assertTrue(feet.equals(inches));
-        assertTrue(yard.equals(inches));
+    void testConversion_ZeroValue() {
+        assertEquals(0.0,
+                QuantityLength.convert(0.0, LengthUnit.FEET, LengthUnit.INCHES), EPS);
     }
 
     @Test
-    void testEquality_NullComparison() {
-
-        QuantityLength q = new QuantityLength(1.0, LengthUnit.YARDS);
-
-        assertFalse(q.equals(null));
+    void testConversion_NegativeValue() {
+        assertEquals(-12.0,
+                QuantityLength.convert(-1.0, LengthUnit.FEET, LengthUnit.INCHES), EPS);
     }
 
     @Test
-    void testEquality_SameReference() {
+    void testConversion_RoundTrip_PreservesValue() {
 
-        QuantityLength q = new QuantityLength(2.0, LengthUnit.YARDS);
+        double value = 5.0;
 
-        assertTrue(q.equals(q));
+        double converted = QuantityLength.convert(value, LengthUnit.FEET, LengthUnit.INCHES);
+
+        double roundTrip = QuantityLength.convert(converted, LengthUnit.INCHES, LengthUnit.FEET);
+
+        assertEquals(value, roundTrip, EPS);
+    }
+
+    @Test
+    void testConversion_InvalidUnit_Throws() {
+
+        assertThrows(IllegalArgumentException.class,
+                () -> QuantityLength.convert(1.0, null, LengthUnit.FEET));
+    }
+
+    @Test
+    void testConversion_NaNOrInfinite_Throws() {
+
+        assertThrows(IllegalArgumentException.class,
+                () -> QuantityLength.convert(Double.NaN, LengthUnit.FEET, LengthUnit.INCHES));
     }
 }

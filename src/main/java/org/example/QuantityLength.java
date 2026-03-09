@@ -2,6 +2,9 @@ package src.main.java.org.example;
 
 import java.util.Objects;
 
+/**
+ * Immutable value object representing a length measurement.
+ */
 public final class QuantityLength {
 
     private static final double EPSILON = 1e-6;
@@ -16,6 +19,45 @@ public final class QuantityLength {
 
         this.unit = Objects.requireNonNull(unit, "Unit cannot be null");
         this.value = value;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public LengthUnit getUnit() {
+        return unit;
+    }
+
+    /**
+     * Static conversion API
+     */
+    public static double convert(double value, LengthUnit source, LengthUnit target) {
+
+        validate(value, source, target);
+
+        double baseFeet = source.toFeet(value);
+
+        return target.fromFeet(baseFeet);
+    }
+
+    /**
+     * Instance conversion method
+     */
+    public QuantityLength convertTo(LengthUnit targetUnit) {
+
+        double convertedValue = convert(this.value, this.unit, targetUnit);
+
+        return new QuantityLength(convertedValue, targetUnit);
+    }
+
+    private static void validate(double value, LengthUnit source, LengthUnit target) {
+
+        if (!Double.isFinite(value))
+            throw new IllegalArgumentException("Invalid numeric value");
+
+        if (source == null || target == null)
+            throw new IllegalArgumentException("Units cannot be null");
     }
 
     private double toBaseUnit() {
@@ -33,10 +75,7 @@ public final class QuantityLength {
 
         QuantityLength other = (QuantityLength) obj;
 
-        double thisFeet = this.toBaseUnit();
-        double otherFeet = other.toBaseUnit();
-
-        return Math.abs(thisFeet - otherFeet) < EPSILON;
+        return Math.abs(this.toBaseUnit() - other.toBaseUnit()) < EPSILON;
     }
 
     @Override
