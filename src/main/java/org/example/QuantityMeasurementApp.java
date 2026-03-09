@@ -4,18 +4,20 @@ public class QuantityMeasurementApp {
 
     public static void main(String[] args) {
 
-        QuantityLength q1 = new QuantityLength(1.0, LengthUnit.FEET);
-        QuantityLength q2 = new QuantityLength(12.0, LengthUnit.INCHES);
+        System.out.println(
+                new QuantityWeight(1, WeightUnit.KILOGRAM)
+                        .equals(new QuantityWeight(1000, WeightUnit.GRAM)));
 
         System.out.println(
-                "Convert: " + q1.convertTo(LengthUnit.INCHES));
+                new QuantityWeight(1, WeightUnit.KILOGRAM)
+                        .convertTo(WeightUnit.GRAM));
 
         System.out.println(
-                "Add: " + q1.add(q2, LengthUnit.FEET));
+                new QuantityWeight(1, WeightUnit.KILOGRAM)
+                        .add(new QuantityWeight(1000, WeightUnit.GRAM)));
 
         System.out.println(
-                "Equality: " +
-                        new QuantityLength(36, LengthUnit.INCHES)
-                                .equals(new QuantityLength(1, LengthUnit.YARDS)));
+                new QuantityWeight(1, WeightUnit.KILOGRAM)
+                        .add(new QuantityWeight(1000, WeightUnit.GRAM), WeightUnit.GRAM));
     }
 }
