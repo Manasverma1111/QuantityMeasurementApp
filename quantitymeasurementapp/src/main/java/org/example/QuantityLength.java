@@ -26,43 +26,27 @@ public final class QuantityLength {
         return unit;
     }
 
-    private double toBaseUnit() {
-        return unit.toFeet(value);
-    }
-
-
-    public static double convert(double value, LengthUnit source, LengthUnit target) {
-
-        if (!Double.isFinite(value))
-            throw new IllegalArgumentException("Invalid numeric value");
-
-        if (source == null || target == null)
-            throw new IllegalArgumentException("Units cannot be null");
-
-        double feet = source.toFeet(value);
-
-        return target.fromFeet(feet);
-    }
-
     public QuantityLength convertTo(LengthUnit targetUnit) {
 
-        double result = convert(this.value, this.unit, targetUnit);
+        double baseValue = unit.convertToBaseUnit(value);
 
-        return new QuantityLength(result, targetUnit);
+        double convertedValue = targetUnit.convertFromBaseUnit(baseValue);
+
+        return new QuantityLength(convertedValue, targetUnit);
     }
 
-
-    public QuantityLength add(QuantityLength other) {
+    public QuantityLength add(QuantityLength other, LengthUnit targetUnit) {
 
         Objects.requireNonNull(other, "Second operand cannot be null");
 
-        double sumFeet = this.toBaseUnit() + other.toBaseUnit();
+        double baseSum =
+                unit.convertToBaseUnit(value)
+                        + other.unit.convertToBaseUnit(other.value);
 
-        double resultValue = this.unit.fromFeet(sumFeet);
+        double resultValue = targetUnit.convertFromBaseUnit(baseSum);
 
-        return new QuantityLength(resultValue, this.unit);
+        return new QuantityLength(resultValue, targetUnit);
     }
-
 
     public static QuantityLength add(
             QuantityLength a,
@@ -72,16 +56,8 @@ public final class QuantityLength {
         if (a == null || b == null)
             throw new IllegalArgumentException("Operands cannot be null");
 
-        if (targetUnit == null)
-            throw new IllegalArgumentException("Target unit cannot be null");
-
-        double sumFeet = a.toBaseUnit() + b.toBaseUnit();
-
-        double resultValue = targetUnit.fromFeet(sumFeet);
-
-        return new QuantityLength(resultValue, targetUnit);
+        return a.add(b, targetUnit);
     }
-
 
     @Override
     public boolean equals(Object obj) {
@@ -89,17 +65,20 @@ public final class QuantityLength {
         if (this == obj)
             return true;
 
-        if (obj == null || getClass() != obj.getClass())
+        if (!(obj instanceof QuantityLength))
             return false;
 
         QuantityLength other = (QuantityLength) obj;
 
-        return Math.abs(this.toBaseUnit() - other.toBaseUnit()) < EPSILON;
+        double baseA = unit.convertToBaseUnit(value);
+        double baseB = other.unit.convertToBaseUnit(other.value);
+
+        return Math.abs(baseA - baseB) < EPSILON;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(toBaseUnit());
+        return Objects.hash(unit.convertToBaseUnit(value));
     }
 
     @Override
