@@ -32,6 +32,9 @@ public final class Quantity<U extends IMeasurable> {
 
     public Quantity<U> convertTo(U targetUnit) {
 
+        if (targetUnit == null)
+            throw new IllegalArgumentException("Target unit cannot be null");
+
         double baseValue = toBaseUnit();
 
         double converted = targetUnit.convertFromBaseUnit(baseValue);
@@ -45,10 +48,11 @@ public final class Quantity<U extends IMeasurable> {
 
     public Quantity<U> add(Quantity<U> other, U targetUnit) {
 
+        unit.validateOperationSupport("ADD");
+
         validateArithmeticOperands(other, targetUnit, true);
 
         double baseResult = performBaseArithmetic(other, ArithmeticOperation.ADD);
-
         double result = targetUnit.convertFromBaseUnit(baseResult);
 
         return new Quantity<>(round(result), targetUnit);
@@ -60,18 +64,19 @@ public final class Quantity<U extends IMeasurable> {
 
     public Quantity<U> subtract(Quantity<U> other, U targetUnit) {
 
+        unit.validateOperationSupport("SUBTRACT");
+
         validateArithmeticOperands(other, targetUnit, true);
 
         double baseResult = performBaseArithmetic(other, ArithmeticOperation.SUBTRACT);
-
         double result = targetUnit.convertFromBaseUnit(baseResult);
 
         return new Quantity<>(round(result), targetUnit);
     }
 
-
     public double divide(Quantity<U> other) {
 
+        unit.validateOperationSupport("DIVIDE");
         validateArithmeticOperands(other, null, false);
 
         return performBaseArithmetic(other, ArithmeticOperation.DIVIDE);
@@ -93,6 +98,8 @@ public final class Quantity<U extends IMeasurable> {
     }
 
     private double performBaseArithmetic(Quantity<U> other, ArithmeticOperation operation) {
+
+        unit.validateOperationSupport(operation.name());
 
         double baseA = this.toBaseUnit();
         double baseB = other.toBaseUnit();
