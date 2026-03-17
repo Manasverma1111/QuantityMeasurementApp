@@ -1,4 +1,4 @@
-package src.main.java.org.example;
+package org.example;
 
 public enum WeightUnit implements IMeasurable {
 
@@ -10,11 +10,6 @@ public enum WeightUnit implements IMeasurable {
 
     WeightUnit(double conversionFactor) {
         this.conversionFactor = conversionFactor;
-    }
-
-    @Override
-    public double getConversionFactor() {
-        return conversionFactor;
     }
 
     @Override
@@ -30,5 +25,15 @@ public enum WeightUnit implements IMeasurable {
     @Override
     public String getUnitName() {
         return name();
+    }
+
+    @Override
+    public double getConversionFactor() {
+        return conversionFactor;
+    }
+
+    @Override
+    public boolean supportsArithmetic() {
+        return true;
     }
 }

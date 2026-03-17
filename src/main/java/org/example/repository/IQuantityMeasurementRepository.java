@@ -1,13 +1,8 @@
-package src.main.java.org.example.repository;
+package org.example.repository;
 
+import org.example.entity.QuantityMeasurementEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import src.main.java.org.example.entity.QuantityMeasurementEntity;
+public interface QuantityMeasurementRepository extends JpaRepository<QuantityMeasurementEntity, Long> {
 
-import java.util.List;
-
-public interface IQuantityMeasurementRepository {
-
-    void save(QuantityMeasurementEntity entity);
-
-    List<QuantityMeasurementEntity> getAllMeasurements();
 }

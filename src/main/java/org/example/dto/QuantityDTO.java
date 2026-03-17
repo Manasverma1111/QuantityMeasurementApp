@@ -1,31 +1,17 @@
-package src.main.java.org.example.dto;
+package org.example.dto;
+
+import org.antlr.v4.runtime.misc.NotNull;
 
 public class QuantityDTO {
 
-    private double value;
-    private String unit;
-    private String measurementType;
+    @NotNull
+    private String operation;
 
-    public QuantityDTO(double value, String unit, String measurementType) {
-        this.value = value;
-        this.unit = unit;
-        this.measurementType = measurementType;
-    }
+    @NotNull
+    private Double operand1;
 
-    public double getValue() {
-        return value;
-    }
+    private Double operand2;
 
-    public String getUnit() {
-        return unit;
-    }
+    private Double result;
 
-    public String getMeasurementType() {
-        return measurementType;
-    }
-
-    @Override
-    public String toString() {
-        return value + " " + unit;
-    }
 }
