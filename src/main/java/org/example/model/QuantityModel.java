@@ -1,6 +1,6 @@
 package org.example.model;
 
-import src.main.java.org.example.IMeasurable;
+import org.example.IMeasurable;
 
 public class QuantityModel<U extends IMeasurable> {
 
