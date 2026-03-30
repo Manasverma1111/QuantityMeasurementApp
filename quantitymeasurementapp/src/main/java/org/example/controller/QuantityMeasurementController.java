@@ -1,42 +1,44 @@
 package org.example.controller;
 
-import org.example.entity.QuantityMeasurementEntity;
-import org.example.service.QuantityMeasurementServiceImpl;
+import org.example.dto.QuantityDTO;
+import org.example.service.IQuantityMeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
-
 
 @RestController
-@RequestMapping("/api/measurements")
+@RequestMapping("/api/v1/quantities")
 public class QuantityMeasurementController {
 
-    private final QuantityMeasurementServiceImpl service;
     @Autowired
-    public QuantityMeasurementController(QuantityMeasurementServiceImpl service) {
-        this.service = service;
+    private IQuantityMeasurementService service;
+
+    @GetMapping("/home")
+    public String home(){
+        return "App Started";
+    }
+    @PostMapping("/compare")
+    public boolean compare(@RequestBody QuantityDTO[] quantities){
+        return service.compare(quantities[0],quantities[1]);
     }
 
-    @PostMapping
-    public QuantityMeasurementEntity save(@RequestBody QuantityMeasurementEntity entity) {
-        return service.save(entity);
-
+    @PostMapping("/convert")
+    public QuantityDTO convert(@RequestBody QuantityDTO quantity,
+                               @RequestParam String targetUnit){
+        return service.convert(quantity,targetUnit);
     }
 
-    @GetMapping
-    public List<QuantityMeasurementEntity> getAll() {
-        return service.findAll();
+    @PostMapping("/add")
+    public QuantityDTO add(@RequestBody QuantityDTO[] quantities){
+        return service.add(quantities[0],quantities[1]);
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteById(@PathVariable Long id) {
-        service.deleteById(id);
-        return "Measurement with ID " + id + " deleted";
+    @PostMapping("/subtract")
+    public QuantityDTO subtract(@RequestBody QuantityDTO[] quantities){
+        return service.subtract(quantities[0],quantities[1]);
     }
 
-    @DeleteMapping
-    public String deleteAll(){
-        service.deleteAllMeasurements();
-        return "All the measurements Deleted";
+    @PostMapping("/divide")
+    public double divide(@RequestBody QuantityDTO[] quantities){
+        return service.divide(quantities[0],quantities[1]);
     }
 }

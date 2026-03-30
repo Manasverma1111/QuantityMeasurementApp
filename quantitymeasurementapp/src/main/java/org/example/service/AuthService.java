@@ -5,6 +5,8 @@ import org.example.dto.LoginRequest;
 import org.example.dto.RegisterRequest;
 import org.example.entity.User;
 import org.example.repository.UserRepository;
+import org.example.util.JwtUtil;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 @Service

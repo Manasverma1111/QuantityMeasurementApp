@@ -15,7 +15,7 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
     @Autowired
     private IQuantityMeasurementRepository repository;
 
-    // 🔹 Convert DTO → quantity.Quantity Model
+    // Convert DTO → quantity.Quantity Model
     private Quantity convertDTOToQuantity(QuantityDTO dto){
 
         String unitName=dto.getUnit();
@@ -85,7 +85,7 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
         }
     }
 
-    // CONVERT
+    // 🔥 CONVERT
     @Override
     public QuantityDTO convert(QuantityDTO source,String targetUnit){
 
@@ -115,7 +115,7 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
         }
     }
 
-    // ADD
+    // 🔥 ADD
     @Override
     public QuantityDTO add(QuantityDTO q1,QuantityDTO q2){
 
@@ -141,7 +141,7 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
         }
     }
 
-    // SUBTRACT
+    // 🔥 SUBTRACT
     @Override
     public QuantityDTO subtract(QuantityDTO q1,QuantityDTO q2){
 

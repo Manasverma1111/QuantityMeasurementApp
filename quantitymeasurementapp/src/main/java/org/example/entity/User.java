@@ -25,7 +25,7 @@ public class User {
 
     private String name;
 
-    private String provider; // "LOCAL" or "GOOGLE"
+    private String provider; // LOCAL or GOOGLE
 
-    private String role; // "ROLE_USER"
+    private String role; // ROLE_USER
 }
