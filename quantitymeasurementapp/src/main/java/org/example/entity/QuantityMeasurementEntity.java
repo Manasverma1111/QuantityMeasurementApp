@@ -1,24 +1,52 @@
-package src.main.java.org.example.entity;
+package org.example.entity;
 
-import java.io.Serializable;
+import jakarta.persistence.*;
 
-public class QuantityMeasurementEntity implements Serializable {
+import java.time.LocalDateTime;
 
-    private static final long serialVersionUID = 1L;
+@Entity
+@Table(name="quantity_measurements")
+public class QuantityMeasurementEntity {
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
+
+    private String operand1;
+    private String operand2;
     private String operation;
     private String result;
 
-    public QuantityMeasurementEntity(String operation, String result) {
-        this.operation = operation;
-        this.result = result;
+    private LocalDateTime createdAt;
+
+    public QuantityMeasurementEntity(){}
+
+    public QuantityMeasurementEntity(String operand1,String operand2,String operation,String result){
+        this.operand1=operand1;
+        this.operand2=operand2;
+        this.operation=operation;
+        this.result=result;
     }
 
-    public String getOperation() {
-        return operation;
+    @PrePersist
+    public void onCreate(){
+        this.createdAt=LocalDateTime.now();
     }
 
-    public String getResult() {
-        return result;
-    }
+    // getters & setters
+    public Long getId(){ return id; }
+
+    public String getOperand1(){ return operand1; }
+    public void setOperand1(String operand1){ this.operand1=operand1; }
+
+    public String getOperand2(){ return operand2; }
+    public void setOperand2(String operand2){ this.operand2=operand2; }
+
+    public String getOperation(){ return operation; }
+    public void setOperation(String operation){ this.operation=operation; }
+
+    public String getResult(){ return result; }
+    public void setResult(String result){ this.result=result; }
+
+    public LocalDateTime getCreatedAt(){ return createdAt; }
 }
