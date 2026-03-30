@@ -1,33 +1,42 @@
-package src.main.java.org.example.controller;
+package org.example.controller;
 
-import src.main.java.org.example.dto.QuantityDTO;
-import src.main.java.org.example.service.IQuantityMeasurementService;
+import org.example.entity.QuantityMeasurementEntity;
+import org.example.service.QuantityMeasurementServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
+
+@RestController
+@RequestMapping("/api/measurements")
 public class QuantityMeasurementController {
 
-    private IQuantityMeasurementService service;
-
-    public QuantityMeasurementController(IQuantityMeasurementService service) {
+    private final QuantityMeasurementServiceImpl service;
+    @Autowired
+    public QuantityMeasurementController(QuantityMeasurementServiceImpl service) {
         this.service = service;
     }
 
-    public boolean performComparison(QuantityDTO q1, QuantityDTO q2) {
-        return service.compare(q1, q2);
+    @PostMapping
+    public QuantityMeasurementEntity save(@RequestBody QuantityMeasurementEntity entity) {
+        return service.save(entity);
+
     }
 
-    public QuantityDTO performConversion(QuantityDTO q, String targetUnit) {
-        return service.convert(q, targetUnit);
+    @GetMapping
+    public List<QuantityMeasurementEntity> getAll() {
+        return service.findAll();
     }
 
-    public QuantityDTO performAddition(QuantityDTO q1, QuantityDTO q2) {
-        return service.add(q1, q2);
+    @DeleteMapping("/{id}")
+    public String deleteById(@PathVariable Long id) {
+        service.deleteById(id);
+        return "Measurement with ID " + id + " deleted";
     }
 
-    public QuantityDTO performSubtraction(QuantityDTO q1, QuantityDTO q2) {
-        return service.subtract(q1, q2);
-    }
-
-    public double performDivision(QuantityDTO q1, QuantityDTO q2) {
-        return service.divide(q1, q2);
+    @DeleteMapping
+    public String deleteAll(){
+        service.deleteAllMeasurements();
+        return "All the measurements Deleted";
     }
 }

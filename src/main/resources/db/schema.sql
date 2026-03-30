@@ -5,4 +5,4 @@ CREATE TABLE IF NOT EXISTS quantity_measurement_entity (
     this_measurement_type VARCHAR(50) NOT NULL,
     operation VARCHAR(50) NOT NULL,
     result_string VARCHAR(255)
-);
+    );

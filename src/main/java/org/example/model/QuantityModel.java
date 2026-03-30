@@ -1,27 +1,22 @@
-package src.main.java.org.example.model;
+package org.example.model;
 
-import src.main.java.org.example.IMeasurable;
+import org.example.units.IMeasurable;
 
-public class QuantityModel<U extends IMeasurable> {
+public class QuantityModel<U extends IMeasurable>{
 
     private double value;
     private U unit;
 
-    public QuantityModel(double value, U unit) {
-        this.value = value;
-        this.unit = unit;
+    public QuantityModel(double value,U unit){
+        this.value=value;
+        this.unit=unit;
     }
 
-    public double getValue() {
+    public double getValue(){
         return value;
     }
 
-    public U getUnit() {
+    public U getUnit(){
         return unit;
-    }
-
-    @Override
-    public String toString() {
-        return value + " " + unit;
     }
 }

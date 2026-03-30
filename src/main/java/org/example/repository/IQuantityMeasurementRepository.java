@@ -1,13 +1,19 @@
-package src.main.java.org.example.repository;
+package org.example.repository;
 
 
-import src.main.java.org.example.entity.QuantityMeasurementEntity;
+import org.example.entity.QuantityMeasurementEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface IQuantityMeasurementRepository {
+@Repository
+public interface IQuantityMeasurementRepository
+        extends JpaRepository<QuantityMeasurementEntity,Long> {
 
-    void save(QuantityMeasurementEntity entity);
+    List<QuantityMeasurementEntity> findByOperation(String operation);
 
-    List<QuantityMeasurementEntity> getAllMeasurements();
+    List<QuantityMeasurementEntity> findByOperationIgnoreCase(String operation);
+
+    long countByOperation(String operation);
 }
