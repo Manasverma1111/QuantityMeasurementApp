@@ -1,5 +1,6 @@
 package org.example.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.repository.UserRepository;
 import org.example.service.CustomOAuthToUserService;
@@ -38,10 +39,16 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/**", "/h2-console/**").permitAll()
                         .anyRequest().authenticated()            // /home + all quantity endpoints
                 )
-                .headers(h -> h.frameOptions(f -> f.disable())) // needed for H2 console
+                .headers(h -> h.frameOptions(f -> f.disable())).exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\":\"Unauthorized - Please provide a valid JWT token\"}");
+                        })
+                )// needed for H2 console
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 
-                // google OAuth2
+//                 google OAuth2
                 .oauth2Login(oauth -> oauth
                         .userInfoEndpoint(u -> u.userService(oAuth2UserService))
                         .successHandler((request, response, authentication) -> {
