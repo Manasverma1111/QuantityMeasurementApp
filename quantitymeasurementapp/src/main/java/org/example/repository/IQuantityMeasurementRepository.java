@@ -14,5 +14,7 @@ public interface IQuantityMeasurementRepository
 
     List<QuantityMeasurementEntity> findByOperationIgnoreCase(String operation);
 
+    List<QuantityMeasurementEntity> findByUserEmailOrderByCreatedAtDesc(String userEmail);
+
     long countByOperation(String operation);
 }
