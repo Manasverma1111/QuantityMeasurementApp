@@ -197,7 +197,7 @@ public class SecurityConfig {
 
                             String token = jwtUtil.generateToken(email);
 
-                            String redirectUrl = "http://localhost:4200/auth/callback"
+                            String redirectUrl = "https://quantity-measurement-app-frontend-sigma.vercel.app/auth/callback"
                                     + "?token=" + URLEncoder.encode(token, StandardCharsets.UTF_8)
                                     + "&email=" + URLEncoder.encode(email, StandardCharsets.UTF_8)
                                     + "&name=" + URLEncoder.encode(name, StandardCharsets.UTF_8);
@@ -228,7 +228,7 @@ public class SecurityConfig {
         org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
         config.setAllowedOrigins(List.of(
                 "http://localhost:4200",
-                "https://your-frontend-domain.com"
+                "https://quantity-measurement-app-frontend-sigma.vercel.app"
         ));
         config.setAllowedMethods(java.util.List.of("GET","POST","PUT","DELETE","OPTIONS"));
         config.setAllowedHeaders(java.util.List.of("*"));
