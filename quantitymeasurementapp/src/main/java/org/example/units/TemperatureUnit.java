@@ -9,7 +9,7 @@ public enum TemperatureUnit implements IMeasurable{
 
     private final Function<Double,Double>conversionValue;
 
-    SupportsArithmetic supportsArithmetic=()->false;
+    SupportsArithmetic supportsArithmetic=()->true;
 
     TemperatureUnit(boolean isFahrenheit){
 
